@@ -1,0 +1,165 @@
+@model IEnumerable<ApplicationUser>
+
+<section class="content">
+    <div class="container-fluid" style="padding-top: 20px">
+        <div class="row ">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-header bg-gray-light">
+                        <h3 class="card-title">Usuários</h3>
+                        <div class="float-right">
+                            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Criar Usuário</a>
+                            <a class="btn btn-primary" style="background: #f1c40f; border-color: #f1c40f; color: white">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!--card-header-->
+
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4" style="padding: 15px">
+                                <div class="dataTables_length">
+                                    <input type="checkbox">
+                                    <i class="fas fa-chevron-down" style="padding-left: 5px"></i>
+                                </div>
+                            </div>
+
+
+                            <!-- SEARCH FORM -->
+                            <div class="input-group input-group-sm col-md-8 col-sm-12 justify-content-end">
+
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                        <i class="fas fa-filter"></i>
+                                        <span class="caret"></span>
+                                    </button>
+
+                                    <form method="get" class="dropdown-menu dropdown-menu-right">
+                                        <h6 class="bg-gray-light">Ativo</h6>
+                                        <div class="p-2">
+                                            <select name="ativo" class="form-control form-control-sm">
+                                                <option value="null" selected="selected">-</option>
+                                                <option value="true">Sim</option>
+                                                <option value="false">Não</option>
+                                            </select>
+                                        </div>
+                                        <h6 class="bg-gray-light">Nome</h6>
+                                        <div class="p-2">
+                                            <input name="nome" type="text" class="form-control form-control-sm">
+                                        </div>
+                                        <h6 class="bg-gray-light">Email</h6>
+                                        <div class="p-2">
+                                            <input name="email" type="text" class="form-control form-control-sm">
+                                        </div>
+                                        <h6 class="bg-gray-light">Grupo</h6>
+                                        <div class="p-2">
+                                            <select name="grupo" class="form-control form-control-sm">
+                                                <option value="0" selected="selected"></option>
+                                                <option value="1">Administrador</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-default" style="margin-left: 5px">Limpar</button>
+                                        <input type="submit" value="Filtrar" class="btn btn-primary justify-content-end"/>
+                                    </form>
+                                </div><!--dropdown-->
+                            </div>
+                        </div><!--row-->
+
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>
+
+                                </th>
+                                <th>
+                                    Nome
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Grupo)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Status)
+                                </th>
+
+                                <th>
+
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox">
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Grupo)
+                                    </td>
+
+                                    <td>
+                                        @if (item.Status)
+                                        {
+                                            <span class="badge mr-1 bg-success"
+                                                  style="width: 8px; height: 8px; border-radius: 50%; display: inline-block; min-height: auto; padding: 0">
+                                            </span>
+                                            <span>Ativo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge mr-1 bg-danger"
+                                                  style="width: 8px; height: 8px; border-radius: 50%; display: inline-block; min-height: auto; padding: 0">
+                                            </span>
+                                            <label>Inativo</label>
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-default float-right" type="button" data-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v "></i>
+                                                <span class="caret"></span>
+                                            </button>
+
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id"><i class="far fa-eye"></i> Visualizar</a>
+                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="far fa-edit"></i> Editar</a>
+                                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Remover</a>
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div> <!--card-body-->
+
+
+                </div><!--card-->
+
+            </div>
+        </div>
+    </div>
+</section>

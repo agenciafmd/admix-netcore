@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admix.NetCore", "Admix.NetCore\Admix.NetCore.csproj", "{F27E2DBE-39F9-400F-847A-1548B7FA6FF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F27E2DBE-39F9-400F-847A-1548B7FA6FF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F27E2DBE-39F9-400F-847A-1548B7FA6FF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F27E2DBE-39F9-400F-847A-1548B7FA6FF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F27E2DBE-39F9-400F-847A-1548B7FA6FF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
