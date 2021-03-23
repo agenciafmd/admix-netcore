@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -8,110 +9,52 @@ using Admix.NetCore.Configuration;
 
 namespace Admix.NetCore.Repository.Generics
 {
-    public class Repository<T> : IRepository<T>, IDisposable where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbContextOptions<ContextBase> _OptionsBuilder;
+        private readonly ContextBase _context;
+        private DbSet<T> entities;
 
-        public Repository()
+        public Repository(ContextBase context)
         {
-            _OptionsBuilder = new DbContextOptions<ContextBase>();
+            _context = context;
+            entities = context.Set<T>();
         }
 
-        public async Task<T> Create(T item)
+        public T Create(T item)
         {
-            using (var data = new ContextBase(_OptionsBuilder))
-            {
-                await data.Set<T>().AddAsync(item);
-                await data.SaveChangesAsync();
-                return item;
-            }
+            entities.Add(item);
+            _context.SaveChanges();
+            return item;
+        }
+        
+
+        public T Update(T item)
+        {
+            entities.Update(item);
+            _context.SaveChanges();
+            return item;
         }
 
-        public T CreateItem(T item)
+        public void Delete(T item)
         {
-            using (var data = new ContextBase(_OptionsBuilder))
-            {
-                data.Set<T>().Add(item);
-                data.SaveChanges();
-                return item;
-            }
+            entities.Remove(item);
+            _context.SaveChanges();
         }
 
-        public async Task<T> Update(T item)
+        public T FindByID(int id)
         {
-            using (var data = new ContextBase(_OptionsBuilder))
-            {
-                data.Set<T>().Update(item);
-                await data.SaveChangesAsync();
-                return item;
-            }
+            return entities.Find(id);
         }
 
-        public async Task Delete(T item)
+        public T FindByIDString(string id)
         {
-            using (var data = new ContextBase(_OptionsBuilder))
-            {
-                data.Set<T>().Remove(item);
-                await data.SaveChangesAsync();
-            }
+            return entities.Find(id);
         }
 
-        public async Task<T> FindByID(int id)
+        public List<T> FindAll()
         {
-            using (var data = new ContextBase(_OptionsBuilder))
-            {
-                return await data.Set<T>().FindAsync(id);
-            }
+            return entities.ToList();
         }
-
-        public async Task<T> FindByIDString(string id)
-        {
-            using (var data = new ContextBase(_OptionsBuilder))
-            {
-                return await data.Set<T>().FindAsync(id);
-            }
-        }
-
-        public async Task<List<T>> FindAll()
-        {
-            using (var data = new ContextBase(_OptionsBuilder))
-            {
-                return await data.Set<T>().AsNoTracking().ToListAsync();
-            }
-        }
-
-
-        #region Disposed https: //docs.microsoft.com/pt-br/dotnet/standard/garbage-collection/implementing-dispose
-
-        // Flag: Has Dispose already been called?
-        private bool disposed;
-
-        // Instantiate a SafeHandle instance.
-        private readonly SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
-
-
-        // Public implementation of Dispose pattern callable by consumers.
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-
-        // Protected implementation of Dispose pattern.
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-                handle.Dispose();
-            // Free any other managed objects here.
-            //
-
-            disposed = true;
-        }
-
-        #endregion
+       
     }
 }

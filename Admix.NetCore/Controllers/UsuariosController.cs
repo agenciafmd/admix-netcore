@@ -26,9 +26,9 @@ namespace Admix.NetCore.Controllers
         }
 
         // GET
-        public async Task<IActionResult> Index(bool ativo, string nome, string email, int grupo)
+        public IActionResult Index(bool ativo, string nome, string email, int grupo)
         {
-            var users = await _user.FindAll();
+            var users = _user.FindAll();
 
             if (!string.IsNullOrWhiteSpace(nome))
                 users = users.Where(u => u.NormalizedUserName.Contains(nome.ToUpper())).ToList();
